@@ -8,9 +8,15 @@ Actor::~Actor(){
     for(auto element : _actions) {
         delete element;
     }
+    delete logger;
 }
 
 Action Actor::getAction(std::string name) {
+    Action result = null;
+    if(std::find(_actions.begin(), _actions.end(), name) != _actions.end()) {
+        result = 
+    } 
+    
     return null;
 }
 

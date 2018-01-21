@@ -23,12 +23,20 @@ public:
      * z.B. über das Wlan, einer RestApi oder über eine Funkanbindung
      */ 
     std::function<void (T)> send;
+    std::bool operator==(Action const& lhs, Action const& rhs);
+    std::bool operator!=(Action const& lhs, Action const& rhs);
 
 private:
     std::string _name;
     std::T _sendData;
-    spdlog::basic_logger_mt("basic_logger", "logs/log.txt") _logger;
 };
+ 
+std::bool template<T> Action::operator==(Action const& lhs, Action const& rhs){
+    return lhs._name == rhs._name;
+}
+std::bool template<T> Action::operator!=(Action const& lhs, Action const& rhs){
+    return lhs._name != rhs._name;
+}
 
 
 /**
