@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include <shared_ptr>
+#include <memory>
 #include "./spdlog/spdlog.h"
 
 
@@ -23,18 +23,18 @@ public:
      * z.B. über das Wlan, einer RestApi oder über eine Funkanbindung
      */ 
     std::function<void (T)> send;
-    std::bool operator==(Action const& lhs, Action const& rhs);
-    std::bool operator!=(Action const& lhs, Action const& rhs);
+    bool operator==(Action const& lhs, Action const& rhs);
+    bool operator!=(Action const& lhs, Action const& rhs);
 
 private:
     std::string _name;
     std::T _sendData;
 };
  
-std::bool template<T> Action::operator==(Action const& lhs, Action const& rhs){
+bool template<T> Action::operator==(Action const& lhs, Action const& rhs){
     return lhs._name == rhs._name;
 }
-std::bool template<T> Action::operator!=(Action const& lhs, Action const& rhs){
+bool template<T> Action::operator!=(Action const& lhs, Action const& rhs){
     return lhs._name != rhs._name;
 }
 
