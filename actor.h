@@ -23,19 +23,19 @@ public:
      * z.B. über das Wlan, einer RestApi oder über eine Funkanbindung
      */ 
     std::function<void (T)> send;
-    bool operator==(Action const& lhs, Action const& rhs);
-    bool operator!=(Action const& lhs, Action const& rhs);
+    bool operator==(Action const& rhs);
+    bool operator!=(Action const& rhs);
 
 private:
     std::string _name;
     std::T _sendData;
 };
  
-bool template<T> Action::operator==(Action const& lhs, Action const& rhs){
-    return lhs._name == rhs._name;
+bool template<T> Action::operator==(Action const& rhs){
+    return this->_name == rhs._name;
 }
-bool template<T> Action::operator!=(Action const& lhs, Action const& rhs){
-    return lhs._name != rhs._name;
+bool template<T> Action::operator!=( Action const& rhs){
+    return this->_name != rhs._name;
 }
 
 

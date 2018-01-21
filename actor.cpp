@@ -1,14 +1,14 @@
 #include "actor.h"
 
 Actor::Actor(){    
-    _logger = spdlogger::basic_logger_st("ActorLogging", "./log/actor.log");
+    _logger = spdlog::basic_logger_st("ActorLogging", "./log/actor.log");
 }
 
 Actor::~Actor(){
     for(auto element : _actions) {
         delete element;
     }
-    delete logger;
+    delete _logger;
 }
 
 Action Actor::getAction(std::string name) {
@@ -28,7 +28,7 @@ std::string Actor::getName(){
     return this->_name;
 }
 
-void Actor::send(Action action) const;{
+void Actor::send(Action action);{
        
     try {
         
