@@ -4,10 +4,14 @@
 #include <memory>
 #include "./spdlog/spdlog.h"
 
+/**
+ * Eine Aktion ist steuert einen Aktor
+ * z.B. turnOn, turnOff, reset oder getInfo
+ */ 
 class Action {
 public:
-    std::string getName();
-    std::string getDescription();
+    virtual std::string getName();
+    virtual std::string getDescription();
 
     bool operator==(TAction const& rhs) { return this->_name == rhs._name; }
     bool operator!=(TAction const& rhs) { return this->_name != rhs._name; }
@@ -16,6 +20,8 @@ protected:
     std::string _name;
     std::string _description;
 
+private:
+    Action() {}
 };
 
 
@@ -28,20 +34,39 @@ protected:
  */
 template<class T> class TAction : public Action {
 public:
+    TAction(std::string name, std::string desc, T sendData);
+
     /**
      * Lampda-Funktion zum verschicken der einer Aktion
      * so kann ein Aktor mehrere Typen der Ansteuerung haben
      * z.B. über das Wlan, einer RestApi oder über eine Funkanbindung
      */ 
     std::function<void (T)> send;
+    // [x](int n) {return n < x;}
+    // function<int (int)> func = [](int i) {return i + 4};
 
-// [x](int n) {return n < x;}
-// function<int (int)> func = [](int i) {return i + 4};
-
-private:
+protected:
     T _sendData;
 
+private:
+    TAction();
+
+
 };
+
+template<class T> class TIpAction : public TAction<T> {
+public:
+    TIPAction(std::string name, std::string desc, T sendData, std::string ipAddress, int port);
+    std::string getIpAddress();
+    int getPort();
+
+protected:
+    std::string _ipAddress;
+    int _port;
+
+private:
+    TIpAction();
+}
  
 
 /**
@@ -61,7 +86,7 @@ public:
     void send(Action);
     void send(std::string);
 
-private:
+protected:
     std::string _name;
     std::vector<Action> _actions;
     std::shared_ptr<spdlog::logger> _logger;
