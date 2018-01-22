@@ -4,9 +4,20 @@
 #include <memory>
 #include "./spdlog/spdlog.h"
 
+class Action {
+public:
+    std::string getName();
+    std::string getDescription();
 
-// [x](int n) {return n < x;}
-// function<int (int)> func = [](int i) {return i + 4};
+    bool operator==(TAction const& rhs) { return this->_name == rhs._name; }
+    bool operator!=(TAction const& rhs) { return this->_name != rhs._name; }
+
+protected:
+    std::string _name;
+    std::string _description;
+
+};
+
 
 /**
  * Eine Aktion ist steuert einen Aktor
@@ -15,7 +26,7 @@
  * template T: Typ der Variable, welche verschickt werden soll 
  * z.B. Integer, String, Binary
  */
-template<class T> class Action {
+template<class T> class TAction : public Action {
 public:
     /**
      * Lampda-Funktion zum verschicken der einer Aktion
@@ -23,21 +34,15 @@ public:
      * z.B. über das Wlan, einer RestApi oder über eine Funkanbindung
      */ 
     std::function<void (T)> send;
-    bool operator==(Action const& rhs);
-    bool operator!=(Action const& rhs);
+
+// [x](int n) {return n < x;}
+// function<int (int)> func = [](int i) {return i + 4};
 
 private:
-    std::string _name;
-    std::T _sendData;
+    T _sendData;
+
 };
  
-bool template<T> Action::operator==(Action const& rhs){
-    return this->_name == rhs._name;
-}
-bool template<T> Action::operator!=( Action const& rhs){
-    return this->_name != rhs._name;
-}
-
 
 /**
  * Ein Aktor ist eine Steuereinheit
@@ -50,13 +55,15 @@ public:
     Actor();
     ~Actor();
 
-    std::string getName();
-    Action getAction(std::string);
+    Action std::string getName();
+    getAction(std::string);
     void setAction(Action);
     void send(Action);
+    void send(std::string);
 
 private:
     std::string _name;
-    std::vector<Action*> _actions;
-    std::shared_ptr<logger> _logger;
+    std::vector<Action> _actions;
+    std::shared_ptr<spdlog::logger> _logger;
+
 };
